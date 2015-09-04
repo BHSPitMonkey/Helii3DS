@@ -4,13 +4,13 @@
 #include "globals.h"
 #include "Player.h"
 #include "CaveManager.h"
+#include "Drawing.h"
 
 // Global variables
 unsigned int g_ticks = 0;			// Counts how many frames we've drawn, period
 unsigned int g_gameTime = 0;			// Counts how many frames have passed in current game
 unsigned int g_currentStateTime = 0;	// Counts how many frames have passed in current state
 GameState g_currentState;			// Decides what state or mode the game is in
-Render rend;
 Player thePlayer;
 CaveManager theCave;
 //std::ofstream logFile;
@@ -54,8 +54,9 @@ void setGameState(GameState newState)
 
 int main()
 {
-	gfxInitDefault();
-    
+	Drawing::Init();
+    Drawing::SetClearColor(0x00, 0x30, 0x00);  // Green background
+
     //Initialize console on lower screen. Using NULL as the second argument tells the console library to use the internal console structure as current one
 	consoleInit(GFX_BOTTOM, NULL);
     printf("Helii!\n\n");
@@ -71,16 +72,7 @@ int main()
 	bool paused = false;
 
 	while (aptMainLoop())
-	{
-        gspWaitForVBlank();
-        //printf("Got vblank. gcst: %d\n", g_currentStateTime);
-        
-        // Draw background
-        rend.clearTop();
-        //printf("Cleared.\n");
-        rend.drawFillRect(0,0,399,239,0,30,0,rend.topl);
-        //printf("Drew background.\n");
-        
+	{        
         // Scan for input
         hidScanInput();
         //printf("Scanned for input.\n");
@@ -95,6 +87,9 @@ int main()
 		{
             break;
         }
+        
+        // Start drawing top frame elements
+        Drawing::StartTopLeftFrame();
 
         // Do different things depending on the game state.
 		switch (g_currentState) {
@@ -169,15 +164,16 @@ int main()
 			break;			
 		}
         
+        Drawing::EndFrame();
+        
         g_ticks++;
         g_currentStateTime++;
         
         //printf("About to flush and swap.\n");
-    
-		gfxFlushBuffers();
-		gfxSwapBuffers();
+        
+        Drawing::SwapBuffers();
    	}
 
-	gfxExit();
+	Drawing::Finish();
 	return 0;
 }

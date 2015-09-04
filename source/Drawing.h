@@ -8,6 +8,17 @@
 #ifndef DRAWING_H
 #define	DRAWING_H
 
+class Drawing {
+public:
+    static void Init();
+    static void Finish();
+    static void SetClearColor(char r, char g, char b, char a = 0xFF);
+    static void StartTopLeftFrame();
+    static void StartBottomFrame();
+    static void EndFrame();
+    static void SwapBuffers();
+};
+
 // Pure geometry data
 class Rectangle {
 public:
@@ -43,6 +54,7 @@ public:
     void SetY(int y);
     void SetWidth(int width);
     void SetHeight(int height);
+    void SetRotation(float degrees);
     void SetPosition(int x, int y);
     void SetVisible(bool visible);
     bool CollidesWith(Rectangle rect, float x, float y);
@@ -54,6 +66,7 @@ private:
     int _y;
     int _width;
     int _height;
+    float _rot;
     int _visible;
     int _r;
     int _g;

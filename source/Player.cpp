@@ -95,10 +95,10 @@ void Player::Draw()
 
 	// Place the sprite where the player is
 	heliSprite.SetY(y_coord);
-//
-//	// Rotate the helicopter in accordance with its movement
-//	heliSprite.SetRotation(y_veloc);
-//
+
+	// Rotate the helicopter in accordance with its movement
+	heliSprite.SetRotation(y_veloc);
+
 	// Draw the heli sprite
 	heliSprite.Draw();
 //

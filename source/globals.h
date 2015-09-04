@@ -1,8 +1,6 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#include "HRender.h"
-
 // Enum for game states
 enum GameState {
 	MAIN_MENU_STATE,
@@ -12,6 +10,5 @@ enum GameState {
 
 extern unsigned int g_ticks;
 extern GameState g_currentState;
-extern Render rend;
 
 #endif

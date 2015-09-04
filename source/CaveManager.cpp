@@ -54,9 +54,9 @@ void CaveManager::resetAll() {
 bool CaveManager::CollidesWithPlayer()
 {
 	// Define which columns to compare
-	u8 start = first;
+	unsigned short int start = first;
 //	logFile << first << "\n";
-	u8 end = (first + (NUM_COLUMNS / 3)) % NUM_COLUMNS;
+	unsigned short int end = (first + (NUM_COLUMNS / 3)) % NUM_COLUMNS;
 
 	// Loop through these columns
 	for (int i = start; i != end; i = (i+1)%NUM_COLUMNS) {

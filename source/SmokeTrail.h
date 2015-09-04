@@ -35,7 +35,7 @@ protected:
 	//Image smokeImage;
 	Sprite clouds[NUM_CLOUDS];
 
-	u8 first;
+	unsigned short int first;
 };
 
 #endif
