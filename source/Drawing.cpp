@@ -6,7 +6,7 @@
  */
 
 #include <stdio.h>
-#include <sf2d.h>
+#include <sfil.h>
 #include <math.h>
 #include "globals.h"
 #include "Drawing.h"
@@ -80,13 +80,37 @@ void Quad::Draw(bool v)
     );
 }
 
+Image::Image()
+{
+    _tex = 0;
+}
+
+Image::~Image()
+{
+    if (_tex) {
+        sf2d_free_texture(_tex);
+    }
+}
+
+void Image::LoadImage(const char * filename)
+{
+    _tex = sfil_load_PNG_file(filename, SF2D_PLACE_RAM); // TODO: Different place?
+}
+
+sf2d_texture * Image::GetTexture()
+{
+    return _tex;
+}
+
 Sprite::Sprite()
 {
     _x = _y = _width = _height = 0;
     _r = 255;
     _g = 255;
     _b = 0;
+    _alpha = 0xFF;
     _visible = true;
+    _image = 0;
 }
 
 int Sprite::GetX()
@@ -97,6 +121,11 @@ int Sprite::GetX()
 int Sprite::GetY()
 {
     return _y;
+}
+
+unsigned char Sprite::GetOpacity()
+{
+    return _alpha;
 }
 
 void Sprite::SetX(int x)
@@ -135,6 +164,16 @@ void Sprite::SetVisible(bool visible)
     _visible = visible;
 }
 
+void Sprite::SetImage(Image * image, int _tile_w, int _tile_h)
+{
+    _image = image;
+    sf2d_texture * tex = 0;
+    if ((_image) && (tex = _image->GetTexture())) {
+        _width = tex->width;
+        _height = tex->height;
+    }
+}
+
 void Sprite::Move(int dx, int dy)
 {
     _x += dx;
@@ -144,26 +183,34 @@ void Sprite::Move(int dx, int dy)
 void Sprite::Draw()
 {
     if (_visible && _width && _height) {
-        // TODO: Replace with image
-//        rend.drawFillRect(
-//            _x,
-//            _y,
-//            _x + _width,
-//            _y + _height,
-//            _r,
-//            _g,
-//            _b,
-//            rend.topl
-//        );
-        
-    sf2d_draw_rectangle_rotate(
-        _x,
-        _y,
-        _width,
-        _height,
-        RGBA8(_r, _g, _b, 0xFF),
-        _rot
-    );
+        // Try to draw image if possible
+        sf2d_texture * tex = 0;
+        if ((_image) && (tex = _image->GetTexture())) {
+            sf2d_draw_texture_part_rotate_scale_blend(
+                tex,
+                _x,
+                _y,
+                _rot,
+                0,
+                0,
+                tex->width,
+                tex->height,
+                _width / tex->width,
+                _height / tex->height,
+                RGBA8(0xFF, 0xFF, 0xFF, _alpha)
+            );
+        }
+        // Fall back to colored rectangle if no texture present
+        else {
+            sf2d_draw_rectangle_rotate(
+                _x,
+                _y,
+                _width,
+                _height,
+                RGBA8(_r, _g, _b, _alpha),
+                _rot
+            );
+        }
     }
 }
 
@@ -177,15 +224,15 @@ bool Sprite::CollidesWith(Rectangle rect, float x, float y)
     
     if (collided) {
         printf(
-            "Collision: %d %d %d %d, %d %d %d %d",
+            "Coll: %d %d %d %d, %d %d %d %d\n",
             rect.x,
             rect.y,
             rect.width,
             rect.height,
             _x,
             _y,
-            _width,
-            _height
+            (int) _width,
+            (int) _height
         );
     }
     
@@ -197,4 +244,9 @@ void Sprite::SetPlaceholderColor(int r, int g, int b)
     _r = r;
     _g = g;
     _b = b;
+}
+
+void Sprite::SetOpacity(u8 alpha)
+{
+    _alpha = alpha;
 }

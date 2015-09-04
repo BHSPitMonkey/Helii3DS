@@ -64,6 +64,8 @@ int main()
     printf("Press A to fly or reset.\n");
     printf("Press START to pause.\n");
     printf("Press X or SELECT to exit.\n");
+    
+    thePlayer.Init();
 
 	// Go into the main menu state
 	setGameState(MAIN_MENU_STATE);

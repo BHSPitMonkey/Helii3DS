@@ -11,24 +11,22 @@
 #include <math.h>
 #include "CaveManager.h"
 #include "Player.h"
-//#include "smoke.h"
 #include "SmokeTrail.h"
 
 extern std::ofstream logFile;
 extern unsigned int g_gameTime;
 extern Player thePlayer;
 
-// Default constructor
-SmokeTrail::SmokeTrail() { 
+void SmokeTrail::Init() { 
 
 	// Set up the sprite and texture
-	//smokeImage.LoadImage(smoke, IMG_LOAD_TYPE_BUFFER);
+    smokeImage.LoadImage("/3ds/Helii3DS/img/smoke.png");
 
 	for (int i=0; i<NUM_CLOUDS; i++) {
-		//clouds[i].SetImage(&smokeImage);
-		//clouds[i].SetRotation((180.0/NUM_CLOUDS) * i);
-        clouds[i].SetWidth(10);
-        clouds[i].SetWidth(10);
+		clouds[i].SetImage(&smokeImage);
+		clouds[i].SetRotation((180.0/NUM_CLOUDS) * i);
+        clouds[i].SetWidth(20);
+        clouds[i].SetHeight(20);
         clouds[i].SetPlaceholderColor(100, 100, 100);
 	}
 
@@ -58,7 +56,7 @@ void SmokeTrail::update() {
 	// Push all clouds left and lower their opacity
 	for (int i=0; i<NUM_CLOUDS; i++) {
 		clouds[i].Move(-CAVE_SPEED, 0);
-		//clouds[i].SetTransparency( clouds[i].GetTransparency() * 0.95 );
+		clouds[i].SetOpacity( clouds[i].GetOpacity() * 0.95 );
 	}
 
 	// If the first cloud is too far off-screen, reuse it
@@ -67,7 +65,7 @@ void SmokeTrail::update() {
 		// Move the first cloud to where the player is
 		clouds[first].SetPosition(120+10, thePlayer.GetY()+10);
 		clouds[first].SetVisible(true);
-		//clouds[first].SetTransparency(0xFF);	// Fully opaque
+		clouds[first].SetOpacity(0xFF);	// Fully opaque
 
 		first = (first+1) % NUM_CLOUDS;	// Change the index of the first column
 	}	

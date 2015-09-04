@@ -19,7 +19,7 @@ class SmokeTrail {
 public:
 
 	// Constructors and destructor
-	SmokeTrail();						// default constructor
+	void Init();						// default constructor
 	~SmokeTrail();						// destructor
 
 	// Initializer
@@ -32,7 +32,7 @@ public:
 protected:
 
 	// Drawing objects
-	//Image smokeImage;
+	Image smokeImage;
 	Sprite clouds[NUM_CLOUDS];
 
 	unsigned short int first;

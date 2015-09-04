@@ -8,6 +8,8 @@
 #ifndef DRAWING_H
 #define	DRAWING_H
 
+#include <sf2d.h>
+
 class Drawing {
 public:
     static void Init();
@@ -45,11 +47,22 @@ private:
     char _b;
 };
 
+class Image {
+public:
+    Image();
+    ~Image();
+    void LoadImage(const char * filename);
+    sf2d_texture * GetTexture();
+private:
+    sf2d_texture * _tex;
+};
+
 class Sprite {
 public:
     Sprite();
     int GetX();
     int GetY();
+    u8 GetOpacity();
     void SetX(int x);
     void SetY(int y);
     void SetWidth(int width);
@@ -57,20 +70,24 @@ public:
     void SetRotation(float degrees);
     void SetPosition(int x, int y);
     void SetVisible(bool visible);
+    void SetImage(Image * image, int _tile_w = 0, int _tile_h = 0);
     bool CollidesWith(Rectangle rect, float x, float y);
     void SetPlaceholderColor(int r, int g, int b);
+    void SetOpacity(u8 alpha);
     void Move(int dx, int dy);
     void Draw();
 private:
     int _x;
     int _y;
-    int _width;
-    int _height;
+    float _width;
+    float _height;
     float _rot;
     int _visible;
+    Image * _image;
     int _r;
     int _g;
     int _b;
+    u8 _alpha;
 };
 
 #endif	/* DRAWING_H */

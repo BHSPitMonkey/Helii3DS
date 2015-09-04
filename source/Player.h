@@ -22,7 +22,7 @@ class Player {
 public:
 
 	// Constructors and destructor
-	Player();		// default constructor
+	void Init();		// default constructor
 	~Player();		// destructor
 
 	// Initializer
@@ -46,11 +46,11 @@ protected:
 	float y_veloc;	// Vertical velocity
 
 	// Drawing objects
-//	Image heliImage;
+	Image heliImage;
 	Sprite heliSprite;
 
-//	Image fireImageSheet;
-//	Sprite fireSprite;
+	Image fireImageSheet;
+	Sprite fireSprite;
 
 	SmokeTrail theSmokeTrail;
 };

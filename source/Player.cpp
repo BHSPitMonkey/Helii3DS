@@ -8,25 +8,27 @@
 
 #include "Drawing.h"
 #include "Player.h"
-//#include "heli.h"
-//#include "fire.h"
 #include "globals.h"
 
-// Default constructor
-Player::Player() { 
+void Player::Init() { 
 
-	// Set up the sprite and texture
-//	heliImage.LoadImage(heli, IMG_LOAD_TYPE_BUFFER);
-//	heliSprite.SetImage(&heliImage);
+	// Set up the heli sprite and texture
+    heliImage.LoadImage("/3ds/Helii3DS/img/heli.png");
+	heliSprite.SetImage(&heliImage);
 	heliSprite.SetX(120);
 //	heliSprite.DefineCollisionRectangle(3, 17, 47, 29);
-    heliSprite.SetWidth(23);
-    heliSprite.SetHeight(14);
 
-//	// Set up the sprite and texture
-//	fireImageSheet.LoadImage(fire, IMG_LOAD_TYPE_BUFFER);
-//	fireSprite.SetImage(&fireImageSheet, 64, 64);
-//	fireSprite.SetX(120);
+    // Obviated by SetImage now
+    //sf2d_texture * tex = heliImage.GetTexture();
+    //heliSprite.SetWidth(tex->width);
+    //heliSprite.SetHeight(tex->height);
+
+	// Set up the fire sprite and texture
+	fireImageSheet.LoadImage("/3ds/Helii3DS/img/fire.png");
+	fireSprite.SetImage(&fireImageSheet, 64, 64);
+	fireSprite.SetX(120);
+
+    theSmokeTrail.Init();
 
 	// Set default physical state
 	spawn();
