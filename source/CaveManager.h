@@ -19,10 +19,10 @@
 #define CAVE_SPEED 3
 #define MARGIN 50
 #define COL_WIDTH (int)((400.0 + (2.0 * MARGIN)) / NUM_COLUMNS)
-#define INITIAL_CAVE_TOP 50
+#define INITIAL_CAVE_TOP 25
 #define INITIAL_CAVE_SPACING 190
 #define MIN_CAVE_SPACING 50
-#define MAX_CAVE_TOP_CHANGE 4
+#define MAX_CAVE_TOP_CHANGE 2
 
 class CaveManager {
 private:

@@ -71,8 +71,10 @@ public:
     void SetPosition(int x, int y);
     void SetVisible(bool visible);
     void SetImage(Image * image, int _tile_w = 0, int _tile_h = 0);
+    void DefineCollisionRectangle(int x, int y, int w, int h);
     bool CollidesWith(Rectangle rect, float x, float y);
     void SetPlaceholderColor(int r, int g, int b);
+    void SetTint(u8 r, u8 g, u8 b);
     void SetOpacity(u8 alpha);
     void Move(int dx, int dy);
     void Draw();
@@ -88,6 +90,10 @@ private:
     int _g;
     int _b;
     u8 _alpha;
+    Rectangle _collRect;
+    u8 _tintR;
+    u8 _tintG;
+    u8 _tintB;
 };
 
 #endif	/* DRAWING_H */

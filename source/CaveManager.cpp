@@ -53,39 +53,20 @@ void CaveManager::resetAll() {
 
 bool CaveManager::CollidesWithPlayer()
 {
-	// Define which columns to compare
-	unsigned short int start = first;
-//	logFile << first << "\n";
-	unsigned short int end = (first + (NUM_COLUMNS / 3)) % NUM_COLUMNS;
-
-	// Loop through these columns
-	for (int i = start; i != end; i = (i+1)%NUM_COLUMNS) {
+	// Loop through the columns
+	for (int i=0; i<NUM_COLUMNS; i++) {
 		
 		if (roof[i].CollidesWithPlayer()) {		// Check the roof
-
-#ifdef DEBUGMODE
-			logFile << "Collision with roof, column " << ((i - first) % NUM_COLUMNS) << ".\n";
-#endif
-
 			return true;
 		}
 		if (ground[i].CollidesWithPlayer()) {	// Check the ground
-
-#ifdef DEBUGMODE
-			logFile << "Collision with ground, column " << ((i - first) % NUM_COLUMNS) << ".\n";
-#endif
-
 			return true;
 		}
 	}
 	
 	// Now check all the obstacle columns for collision
 	for (int i=0; i<NUM_OBSTACLES; i++) {
-
 		if (obstacles[i].CollidesWithPlayer()) {
-#ifdef DEBUGMODE
-			logFile << "Player hit obstacle " << i << ".\n";
-#endif
 			return true;
 		}
 	}

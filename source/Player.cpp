@@ -16,7 +16,7 @@ void Player::Init() {
     heliImage.LoadImage("/3ds/Helii3DS/img/heli.png");
 	heliSprite.SetImage(&heliImage);
 	heliSprite.SetX(120);
-//	heliSprite.DefineCollisionRectangle(3, 17, 47, 29);
+	heliSprite.DefineCollisionRectangle(3, 17, 47, 29);
 
     // Obviated by SetImage now
     //sf2d_texture * tex = heliImage.GetTexture();
@@ -44,13 +44,13 @@ void Player::spawn() {
 	theSmokeTrail.resetAll();
 
 	// Starting position for a Player
-	y_coord = 120;
+	y_coord = 100;
 
 	// Reset Player velocity to 0
-	y_veloc = -50;
+	y_veloc = -1;
 
     // Reset color
-    heliSprite.SetPlaceholderColor(200, 0, 0);
+    heliSprite.SetTint(0xFF, 0xFF, 0xFF);
 }
 
 int Player::GetY() {
@@ -70,7 +70,7 @@ void Player::thrust()
 
 void Player::die()
 {
-    heliSprite.SetPlaceholderColor(100, 0, 0);
+    heliSprite.SetTint(0xFF, 0x00, 0x00);
 }
 
 // Reposition the player for a new frame

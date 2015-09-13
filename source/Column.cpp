@@ -107,11 +107,6 @@ void Column::pushLeft(float amount)
 
 void Column::Draw()
 {
-    // Bounds check
-    if (x_pos < 0 || x_pos >= 400) {
-        return;
-    }
-
 	// Redefine the drawing rectangle according to mover position.
 	theRect.x = (int)x_pos;
 	theRect.y = (int)y_pos;
@@ -119,10 +114,10 @@ void Column::Draw()
 	
 	/* Temporary: Turn column red if player is touching.
 	if (CollidesWithPlayer())
-		theQuad.SetFillColor((GXColor){ 255, 0, 0, 255 });
+		theQuad.SetFillColor(255, 0, 0);	// Red fill!
 	else
-		theQuad.SetFillColor((GXColor){ 0, 255, 0, 255 });
-	*/
+		theQuad.SetFillColor(0, 255, 0);	// Green fill!
+     */
 
 	// Draw the Quad
 	theQuad.Draw();

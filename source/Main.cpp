@@ -13,7 +13,11 @@ unsigned int g_currentStateTime = 0;	// Counts how many frames have passed in cu
 GameState g_currentState;			// Decides what state or mode the game is in
 Player thePlayer;
 CaveManager theCave;
-//std::ofstream logFile;
+
+unsigned int getScore()
+{
+    return g_gameTime / 10;
+}
 
 void setGameState(GameState newState)
 {
@@ -27,7 +31,6 @@ void setGameState(GameState newState)
     switch (newState) {
         // When changing to the Main Menu state
         case MAIN_MENU_STATE:
-
                 // Respawn the player and the cave
                 thePlayer.spawn();
                 theCave.resetAll();
@@ -35,19 +38,17 @@ void setGameState(GameState newState)
                 // Update the player and the cave once, just to get their starting appearances right.
                 theCave.update();		// Update the position of the cave
                 thePlayer.Move();		// Reposition the player
-
         break;
 
         // When changing to the Flying state
         case FLYING_STATE:
-
                 g_gameTime = 0;
-
         break;
 
-        // When changing to the Dead state (does nothing for now)
+        // When changing to the Dead state
         case DEAD_STATE:
             thePlayer.die();
+            printf("You died! Your distance was: %d\n", getScore());
         break;
     }
 }
@@ -63,13 +64,12 @@ int main()
     printf("Ported with love by BHSPitMonkey.\n\n");
     printf("Press A to fly or reset.\n");
     printf("Press START to pause.\n");
-    printf("Press X or SELECT to exit.\n");
+    printf("Press X or SELECT to exit.\n\n");
     
     thePlayer.Init();
 
 	// Go into the main menu state
 	setGameState(MAIN_MENU_STATE);
-    //printf("Finished setting game state.\n");
     
 	bool paused = false;
 
@@ -77,13 +77,10 @@ int main()
 	{        
         // Scan for input
         hidScanInput();
-        //printf("Scanned for input.\n");
 		u32 kDown = hidKeysDown();
 		//u32 kUp = hidKeysUp();
         u32 kHeld = hidKeysHeld();
-        
-        //printf("Called down and held.\n");
-        
+
         // Quit the game (break out of the runloop) if HOME is pressed
 		if ((kDown & KEY_X) || (kDown & KEY_SELECT))
 		{
@@ -105,17 +102,6 @@ int main()
 				// Draw everything
 				theCave.Draw();			// Draw the cave
 				thePlayer.Draw();		// Draw the player
-				
-				// TODO: Draw some menu text on screen
-//                rend.drawChar(
-//                    'H',
-//                    200,
-//                    120,
-//                    255,
-//                    255,
-//                    255,
-//                    rend.topl
-//                );
 			
 			break;
 			
@@ -134,8 +120,11 @@ int main()
                 if (theCave.CollidesWithPlayer()) {
                     setGameState(DEAD_STATE);
                 }
-                if (thePlayer.GetY() <= 0 || thePlayer.GetY() >= 239)
+                
+                // If the player goes off screen (shouldn't be possible), you die.
+                if (thePlayer.GetY() < -MARGIN || thePlayer.GetY() > 240 + MARGIN) {
                     setGameState(DEAD_STATE);
+                }
 
                 // Move everything (unless paused)
                 if (!paused) {
@@ -170,9 +159,7 @@ int main()
         
         g_ticks++;
         g_currentStateTime++;
-        
-        //printf("About to flush and swap.\n");
-        
+
         Drawing::SwapBuffers();
    	}
 
