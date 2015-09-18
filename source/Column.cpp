@@ -32,11 +32,11 @@ extern Player thePlayer;
 Column::Column()
 {
 	// Column width and height
-	theRect.width = COL_WIDTH - 1;	// Equal column width (+1 to seal gaps)
+	theRect.width = COL_WIDTH + 1;	// Equal column width (+1 to seal gaps)
 	theRect.height = 100;			// gets randomized when spawned
 
 	// Set up column appearance
-	theQuad.SetFillColor(0, 255, 0);	// Green fill!
+	theQuad.SetFillColor(105, 84, 27);	// Brown
 //	theQuad.SetBorder(true);
 //	theQuad.SetBorderWidth(2);
 //	theQuad.SetBorderColor((GXColor){ 0, 0, 0, 255 });	// Black border!

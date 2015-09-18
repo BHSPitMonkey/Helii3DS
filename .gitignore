@@ -47,3 +47,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 /build/
+
+*.zip
+3ds/

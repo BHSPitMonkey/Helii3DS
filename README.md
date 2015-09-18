@@ -2,6 +2,10 @@
 
 A homebrew port of Helii from the Nintendo Wii to the Nintendo 3DS.
 
+## Download
+
+Builds can be downloaded from the [Releases page](https://github.com/BHSPitMonkey/Helii3DS/releases).
+
 ## Build
 
 You'll need the following to be installed properly:
@@ -32,16 +36,26 @@ Place the files onto your SD card like so:
 ## Projects used
 
 * devkitPro (homebrew toolchain)
-* smea/libctru (3DS core functionality)
-* xerpi/libsf2d (for drawing)
-* xerpi/libsfil (for image loading)
+* [smea/libctru](https://github.com/smea/libctru) (3DS core functionality)
+* [xerpi/libsf2d](https://github.com/xerpi/libsf2d) (for drawing)
+* [xerpi/libsfil](https://github.com/xerpi/libsfil) (for image loading)
 * libpng (for image decoding)
 
 ## Artwork used
 
 * https://openclipart.org/detail/10814/helicopter
 * https://openclipart.org/detail/23803/fire
+* [Knewave font](https://github.com/theleagueof/knewave), used under the terms of the SIL Open Font License:
+
+        Copyright (c) 2010, Tyler Finck <hello@sursly.com>, with Reserved Font Name: "Knewave".
+      
+        This Font Software is licensed under the SIL Open Font License, Version 1.1.
+        This license is copied below, and is also available with a FAQ at:
+        http://scripts.sil.org/OFL
+        
+        Version 1.1 - 26 February 2007
 
 ## License
 
 TBD
+

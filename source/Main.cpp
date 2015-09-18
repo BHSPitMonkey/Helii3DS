@@ -1,10 +1,13 @@
 #include <string.h>
 #include <stdio.h>
 #include <3ds.h>
+#include <sftd.h>
+#include <sf2d.h> // Move to Drawing
 #include "globals.h"
 #include "Player.h"
 #include "CaveManager.h"
 #include "Drawing.h"
+#include "knewave_ttf.h"
 
 // Global variables
 unsigned int g_ticks = 0;			// Counts how many frames we've drawn, period
@@ -13,6 +16,11 @@ unsigned int g_currentStateTime = 0;	// Counts how many frames have passed in cu
 GameState g_currentState;			// Decides what state or mode the game is in
 Player thePlayer;
 CaveManager theCave;
+unsigned int g_highScore = 0;
+
+// Colors
+u32 white = RGBA8(255, 255, 255, 255);
+u32 white_80 = RGBA8(255, 255, 255, (int)(255*.8));
 
 unsigned int getScore()
 {
@@ -56,10 +64,16 @@ void setGameState(GameState newState)
 int main()
 {
 	Drawing::Init();
-    Drawing::SetClearColor(0x00, 0x30, 0x00);  // Green background
+    Drawing::SetClearColor(0x24, 0x1E, 0x0E);  // Brown
+    
+    // Font loading
+	sftd_init();
+	sftd_font *font = sftd_load_font_mem(knewave_ttf, knewave_ttf_size);
+    char currentScoreString[7];
+    char highScoreString[7];
 
     //Initialize console on lower screen. Using NULL as the second argument tells the console library to use the internal console structure as current one
-	consoleInit(GFX_BOTTOM, NULL);
+	//consoleInit(GFX_BOTTOM, NULL);
     printf("Helii!\n\n");
     printf("Ported with love by BHSPitMonkey.\n\n");
     printf("Press A to fly or reset.\n");
@@ -156,6 +170,28 @@ int main()
 		}
         
         Drawing::EndFrame();
+        
+        // Start drawing the bottom screen
+        sf2d_start_frame(GFX_BOTTOM, GFX_LEFT);
+
+		sftd_draw_text(font, 120, 45, white, 40, "Helii");
+		sftd_draw_text(font, 100, 88, white_80, 12, "by BHSPitMonkey");
+		sftd_draw_text(font, 80, 120, white, 22, "A to fly or reset");
+		sftd_draw_text(font, 80, 148, white, 22, "START to pause");
+		sftd_draw_text(font, 80, 176, white, 22, "SELECT to exit");
+        
+        // Draw the score
+        unsigned int score = getScore();
+        snprintf(currentScoreString, 7, "%06d", score);
+        sftd_draw_text(font, 251, 4, white, 14, currentScoreString);
+        if (score > g_highScore) {
+            g_highScore = score;
+        }
+        snprintf(highScoreString, 7, "%06d", g_highScore);
+        sftd_draw_text(font, 251, 18, white, 14, highScoreString);
+
+        // Done drawing the bottom screen
+		sf2d_end_frame();
         
         g_ticks++;
         g_currentStateTime++;
